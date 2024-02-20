@@ -1,0 +1,13 @@
+.hidePagination {
+  :global(.ant-pagination-item) {
+    display: none !important;
+  }
+
+  :global(.ant-pagination-prev) {
+    display: none !important;
+  }
+
+  :global(.ant-pagination-next) {
+    display: none !important;
+  }
+}

@@ -1,0 +1,8 @@
+.form {
+  label:global(.ant-form-item-required) {
+    &::before {
+      position: absolute;
+      right: 0;
+    }
+  }
+}

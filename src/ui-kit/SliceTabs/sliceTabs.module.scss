@@ -1,0 +1,8 @@
+.tabs {
+  :global(.ant-tabs-nav-wrap) {
+    display: none;
+  }
+  :global(.ant-tabs-nav) {
+    display: none;
+  }
+}

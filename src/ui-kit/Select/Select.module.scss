@@ -1,0 +1,11 @@
+.select {
+  :global(.ant-select-selection-item) {
+    background-color: transparent;
+  }
+}
+
+.popup {
+  :global(.ant-select-item.ant-select-item-option) {
+    font-weight: 600;
+  }
+}
