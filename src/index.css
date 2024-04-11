@@ -36,6 +36,8 @@ body {
   display: flex;
   place-items: center;
   min-height: 100vh;
+  color: rgba(0, 0, 0, 0.88);
+  font-family: 'Roboto-Regular', Tahoma, serif !important;
 }
 
 @media (prefers-color-scheme: light) {

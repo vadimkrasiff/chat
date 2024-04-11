@@ -1,0 +1,20 @@
+.tabInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  :global(.ant-form) {
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    :global(.ant-form-item) {
+      margin: 0;
+      :global(.ant-form-item-label) {
+        padding: 0;
+        label {
+          color: rgba(0, 0, 0, 0.65);
+        }
+      }
+    }
+  }
+}

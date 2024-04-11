@@ -7,7 +7,7 @@
   color: #000000;
   transition: 0.3s;
   &:hover {
-    background-color: #e7ecf8;
+    background-color: #eaf0ff;
     :global {
       .ant-badge-dot {
         box-shadow: 0 0 0 2px #e7ecf8;
@@ -20,7 +20,7 @@
       right: 6px;
       width: 7px;
       height: 7px;
-      box-shadow: 0 0 0 2px #f7f7f7;
+      box-shadow: 0 0 0 2px #fff;
     }
   }
 
@@ -28,15 +28,41 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 100%;
+    width: calc(100% - 60px);
 
     .firtsInfo {
-      width: 100%;
       display: flex;
       justify-content: space-between;
+
+      .fullName {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: 600;
+        max-width: calc(100% - 100px);
+      }
+      .statusMessage {
+        color: #747474;
+      }
     }
-    .lastMessage {
-      color: #747474;
+    .message {
+      display: flex;
+      justify-content: space-between;
+      .lastMessage {
+        color: #747474;
+        width: calc(100% - 30px);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .countMessage {
+        :global {
+          .ant-badge-count {
+            background-color: #597ef7;
+            box-shadow: unset;
+          }
+        }
+      }
     }
   }
 }

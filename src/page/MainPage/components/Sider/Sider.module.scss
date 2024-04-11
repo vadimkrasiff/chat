@@ -1,5 +1,6 @@
 .layout {
-  position: static;
+  position: sticky;
+  top: 0;
   height: 100vh;
   background-color: #3c3c3c;
   .menu {
@@ -17,8 +18,30 @@
         &:hover {
           .ant-menu-item-icon {
             svg {
-              width: 35px !important;
-              height: 35px !important;
+              width: 35px;
+              height: 35px;
+            }
+          }
+          .ant-avatar {
+            width: 45px !important;
+            height: 45px !important;
+            .anticon {
+              svg {
+                width: 28px;
+                height: 28px;
+              }
+            }
+          }
+        }
+        .ant-avatar {
+          background-color: #ffffff;
+          transition: 0.3s;
+          .anticon {
+            svg {
+              color: #3c3c3c !important;
+              transition: 0.3s;
+              width: 25px;
+              height: 25px;
             }
           }
         }

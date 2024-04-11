@@ -1,16 +1,25 @@
 .chatContainer {
+  width: calc(100% - 80px);
   display: flex;
+
   .chatList {
-    position: static;
+    z-index: 101;
+    position: sticky;
+    overflow: auto;
+    top: 0;
     height: 100vh;
     width: 360px;
-    border-right: 1px solid #e1e1e1;
-    background-color: #f7f7f7;
+    background-color: #ffffff;
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.25);
     .headerList {
+      z-index: 102;
+      position: sticky;
+      top: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      background-color: #ffffff;
 
       :global {
         .ant-input-lg {
@@ -25,6 +34,25 @@
       width: 100%;
       height: calc(100% - 80px);
       color: #747474;
+    }
+  }
+  .dialogContainer {
+    width: calc(100% - 360px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    .noChooseChat {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background-color: #ffffff;
+      padding: 10px 10px;
+      font-weight: 700;
+      border-radius: 6px;
+      transform: translate(-50%, -50%);
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
     }
   }
 }

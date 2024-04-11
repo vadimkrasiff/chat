@@ -1,0 +1,87 @@
+.profilePage {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+
+  .headerPorfile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .firstInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    :global(.ant-image-mask) {
+      border-radius: 50%;
+    }
+    .avatar {
+      width: 80px;
+      object-fit: cover;
+      height: 80px;
+      border-radius: 50%;
+    }
+    .textBlock {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+  }
+}
+
+.detailedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  :global(.ant-form) {
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    :global(.ant-form-item) {
+      margin: 0;
+      :global(.ant-form-item-label) {
+        padding: 0;
+        label {
+          color: rgba(0, 0, 0, 0.65);
+        }
+      }
+    }
+  }
+}
+.logout {
+  .logoutItem {
+    cursor: pointer;
+
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: 0.2s;
+    gap: 10px;
+    color: rgba(245, 34, 45, 0.88);
+
+    :global(.anticon) {
+      font-size: 24px;
+    }
+  }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  canvas {
+    border-radius: 4px;
+  }
+  :global(.ant-slider) {
+    width: 100%;
+  }
+}

@@ -1,0 +1,54 @@
+.settingPage {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+
+  .header {
+    height: 100px;
+    display: flex;
+    align-items: center;
+  }
+
+  .logout {
+    .logoutItem {
+      cursor: pointer;
+
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      transition: 0.2s;
+      gap: 10px;
+      color: rgba(245, 34, 45, 0.88);
+
+      :global(.anticon) {
+        font-size: 24px;
+      }
+    }
+  }
+  .settingList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .settingItem {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: 0.2s;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.01);
+      }
+
+      :global(.anticon) {
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+  }
+}

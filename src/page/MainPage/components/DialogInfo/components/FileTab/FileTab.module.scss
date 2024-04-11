@@ -1,0 +1,21 @@
+.fileContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .fileIcon {
+    svg {
+      font-size: 36px;
+    }
+
+    .fileInfo {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .fileName {
+      font-weight: 600;
+    }
+  }
+}

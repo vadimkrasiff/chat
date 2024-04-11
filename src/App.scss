@@ -1,9 +1,78 @@
-#root {
-  margin: 0 auto;
+@font-face {
+  font-family: "Roboto-Regular";
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
 
+  src: url("src/assets/fonts/Roboto-Regular.ttf") format("ttf");
+}
+@font-face {
+  font-family: "Roboto-Medium";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+
+  src: url("https://web.telegram.org/a/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.465390c6e54c60f4a15f.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Roboto-Bold";
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+
+  src: url("src/assets/fonts/Roboto-Bold.ttf") format("ttf");
 }
 
+@font-face {
+  font-family: "Roboto-Light";
+  font-weight: 100;
+  font-style: normal;
+  font-stretch: normal;
+  src: url("src/assets/fonts/Roboto-Light.ttf") format("ttf");
+}
+.ant-carousel {
+  font-family: sans-serif;
+  line-height: 1.15;
+}
 
+#root {
+  margin: 0 auto;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.88);
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  ::-webkit-scrollbar-button {
+    background-color: transparent;
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+  ::-webkit-resizer {
+    background-color: transparent;
+  }
+}
+
+.whiteBlock {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  padding: 20px;
+}
 // @keyframes logo-spin {
 //   from {
 //     transform: rotate(0deg);

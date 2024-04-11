@@ -1,6 +1,6 @@
-import {Tabs} from 'antd';
-import {TabsContent} from './TabsContent';
-import {TabsSwitcher} from './TabsSwitcher';
+import { Tabs } from "antd";
+import { TabsContent } from "./TabsContent";
+import { TabsSwitcher } from "./TabsSwitcher";
 
 export const SliceTabs = {
   Switcher: TabsSwitcher,
@@ -8,5 +8,5 @@ export const SliceTabs = {
   TabPane: Tabs.TabPane,
 };
 
-export type {TabsContentProps} from './TabsContent';
-export type {TabsSwitcherProps} from './TabsSwitcher';
+export type { TabsContentProps } from "./TabsContent";
+export type { TabsSwitcherProps } from "./TabsSwitcher";

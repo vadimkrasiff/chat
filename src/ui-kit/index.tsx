@@ -69,3 +69,4 @@ export * from "./SliceTabs";
 export * from "./Layout/Layout";
 export * from "./Table/Table";
 export * from "./MaskedInput/MaskedInput";
+export * from "./Video/Video";

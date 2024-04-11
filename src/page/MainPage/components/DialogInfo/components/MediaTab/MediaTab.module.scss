@@ -1,0 +1,13 @@
+.mediaContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mediaWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  :global(.ant-image) {
+    max-width: calc(20% - 5px);
+  }
+}

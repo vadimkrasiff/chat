@@ -1,4 +1,5 @@
 import React from "react";
+import "./dayjsSetup";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./styles/style.scss";
@@ -10,6 +11,8 @@ import {
 import MainPage from "./page/MainPage/MainPage.tsx";
 import AuthPage from "./page/AuthPage/AuthPage.tsx";
 import Sider from "./page/MainPage/components/Sider/Sider.tsx";
+import SettingPage from "./page/SettingPage/SettingPage.tsx";
+import ProfilePage from "./page/ProfilePage/ProfilePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,14 +31,18 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/settings",
-        element: <div>Настройки</div>,
+        element: <SettingPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
       },
       {
         path: "/",
         element: <Navigate to="/im" replace />,
       },
       {
-        path: "/im/:id?",
+        path: "/im/:id?/info?",
         element: <MainPage />,
       },
     ],
