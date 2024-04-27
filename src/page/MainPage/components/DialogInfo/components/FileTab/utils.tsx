@@ -9,37 +9,9 @@ import {
   FileUnknownOutlined,
 } from "@ant-design/icons";
 
-const typeFile = [
-  {
-    id: "pdf",
-    icon: FilePdfOutlined,
-  },
-  {
-    id: "jpg",
-    icon: FileJpgOutlined,
-  },
-  {
-    id: "xlsx",
-    icon: FileExcelOutlined,
-  },
-  {
-    id: "doc",
-    icon: FileWordOutlined,
-  },
-  {
-    id: "zip",
-    icon: FileZipOutlined,
-  },
-  {
-    id: "ppt",
-    icon: FilePptOutlined,
-  },
-];
-
 export const getIcon = (name: string) => {
   const split = name.split(".");
   const typeName = split.pop();
-  const icon = typeFile.find((type) => type.id == typeName)?.icon;
   switch (typeName) {
     case "pdf":
       return <FilePdfOutlined />;

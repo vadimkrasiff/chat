@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getIcon } from "./utils";
-import styles from './FileTab.module.scss'
+import styles from "./FileTab.module.scss";
+import { UploadOutlined } from "@ant-design/icons";
 
 const FileTab = () => {
   const [files, setFiles] = useState([
@@ -14,7 +15,8 @@ const FileTab = () => {
       {files.map((file) => (
         <div className={styles.fileContainer} key={file.name + file.size}>
           <div className={styles.fileIcon}>
-          {getIcon(file.name)}
+            <div className={styles.icon}>{getIcon(file.name)}</div>
+            <UploadOutlined className={styles.uploadIcon} />
           </div>
           <div className={styles.fileInfo}>
             <span className={styles.fileName}>{file.name}</span>

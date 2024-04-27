@@ -73,13 +73,6 @@ const MediaTab = () => {
             imageRender: (imageNode, { current }) => {
               if (media[current].video) {
                 return (
-                  // <video
-                  //   controls
-                  //   muted
-                  //   key={`video-${current}`}
-                  //   width="80%"
-                  //   src={media[current].video}
-                  // />
                   <ReactPlayer muted controls url={media[current].video} />
                 );
               }

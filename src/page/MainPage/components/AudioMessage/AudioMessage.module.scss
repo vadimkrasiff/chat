@@ -11,13 +11,14 @@
   justify-content: start;
   .messageBody {
     background-color: #f7f7f7;
+    color: #6184f8;
   }
 }
 
 .messageBody {
   display: flex;
   gap: 10px;
-  flex-direction: column;
+  align-items: center;
   position: relative;
   min-width: 200px;
   max-width: 500px;
@@ -25,30 +26,45 @@
   padding: 15px 15px 24px;
   border-radius: 6px;
   white-space: pre-line;
-
+  overflow: hidden;
+  .audioProgress {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #b9c9ff;
+    transition: width 0.25s ease;
+  }
+  img,
+  .time {
+    z-index: 11;
+    color: #747474;
+    font-weight: 500;
+  }
+  .buttonVoice {
+    z-index: 11;
+    cursor: pointer;
+    transition: 0.3s;
+  }
   .attachments {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     width: 100%;
-
-    // height: 300px;
-    :global(.ant-image) {
+    img {
       flex: 1 1 25%;
       width: 25%;
-
-      overflow: hidden;
-
-      border-radius: 3px;
-      img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-      }
+      max-width: 100%;
+      object-fit: cover;
+      border-radius: 4px;
     }
   }
 
   .statusMessage {
+    z-index: 11;
+
     position: absolute;
     display: flex;
     align-items: center;

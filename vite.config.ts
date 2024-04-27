@@ -7,6 +7,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "ui-kit": new URL("./src/ui-kit", import.meta.url).pathname,
+      api: new URL("./src/api", import.meta.url).pathname,
+      actions: new URL("./src/actions", import.meta.url).pathname,
+      core: new URL("./src/core", import.meta.url).pathname,
+      Helpers: new URL("./src/Helpers", import.meta.url).pathname,
     },
   },
   plugins: [react()],

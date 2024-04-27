@@ -1,153 +1,51 @@
 import { Carousel, Input } from "antd";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import style from "./MainPage.module.scss";
 import { isEmpty, orderBy } from "lodash";
 import ChatListItem from "./components/ChatListItem/ChatListItem";
 import { useParams } from "react-router-dom";
 import Dialog from "./components/Dialog/Dialog";
-import { Button } from "ui-kit";
-import { LeftOutlined } from "@ant-design/icons";
 import DialogInfo from "./components/DialogInfo/DialogInfo";
+import { useSelector, useDispatch } from "react-redux";
+import { getDialogs } from "api";
+import { setDialogsAC } from "actions";
+import { Spin } from "ui-kit";
 
 const MainPage = () => {
   const { Search } = Input;
-  const [chatList, setChatList] = useState([
-    {
-      fullname: "Красильников Вадим",
-      online: true,
-      created_at: new Date(),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 123,
-      unreaded: 3,
-      login: "v_krasiv",
-      avatar: "https://images.ast.ru/upload/iblock/ba8/Gosling_752.jpg",
-    },
-    {
-      fullname: "Красильникова Алина",
-      online: false,
-      created_at: new Date(2024, 1, 20, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: false,
-      readed: false,
-      chatId: 13,
-      unreaded: 23,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Цыгвинцев Олег",
-      online: true,
-      created_at: new Date(2024, 1, 10, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 12,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Красильников Вадим",
-      online: true,
-      created_at: new Date(),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 11,
-      unreaded: 3,
-      login: "v_krasiv",
-      avatar: "https://images.ast.ru/upload/iblock/ba8/Gosling_752.jpg",
-    },
-    {
-      fullname: "Красильникова Алина",
-      online: false,
-      created_at: new Date(2024, 1, 20, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: false,
-      readed: false,
-      chatId: 10,
-      unreaded: 23,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Мустафина Людмила",
-      online: true,
-      created_at: new Date(2024, 1, 10, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 9,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Красильников Вадим",
-      online: true,
-      created_at: new Date(),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 8,
-      unreaded: 3,
-      login: "v_krasiv",
-      avatar: "https://images.ast.ru/upload/iblock/ba8/Gosling_752.jpg",
-    },
-    {
-      fullname: "Красильникова Алина",
-      online: false,
-      created_at: new Date(2024, 1, 20, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: false,
-      readed: false,
-      chatId: 7,
-      unreaded: 23,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Мустафина Людмила",
-      online: true,
-      created_at: new Date(2024, 1, 10, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 6,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Красильников Вадим",
-      online: true,
-      created_at: new Date(),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 5,
-      unreaded: 3,
-      login: "v_krasiv",
-      avatar: "https://images.ast.ru/upload/iblock/ba8/Gosling_752.jpg",
-    },
-    {
-      fullname: "Красильникова Алина",
-      online: false,
-      created_at: new Date(2024, 1, 20, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: false,
-      readed: false,
-      chatId: 4,
-      unreaded: 23,
-      login: "alinka_KR",
-    },
-    {
-      fullname: "Мустафина Людмила",
-      online: true,
-      created_at: new Date(2024, 1, 10, 8, 0, 0, 0),
-      text: "Привет, как дела? \n Привет, как дела? Привет, как дела?",
-      isMe: true,
-      readed: true,
-      chatId: 3,
-      login: "alinka_KR",
-    },
-  ]);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [searchDialogs, setSearchDialogs] = useState("");
+
+  const onChange = (e: any) => {
+    setSearchDialogs(e.target.value);
+  };
+  const dialogs = useSelector((state: any) => state?.dialogs.items);
+
+  const filterDialogs = useMemo(
+    () =>
+      dialogs.filter((dialog: any) =>
+        dialog.user.fullname.toLowerCase().includes(searchDialogs.toLowerCase())
+      ),
+    [dialogs, searchDialogs]
+  );
+
+  const setDialogs = useCallback(async () => {
+    const data = await getDialogs();
+
+    if (data) {
+      dispatch(setDialogsAC(data));
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    setDialogs();
+  }, []);
+
   const ref = useRef<any>();
   const { id } = useParams();
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   const goTo = (slide: number) => {
     ref.current.goTo(slide, false);
@@ -164,13 +62,19 @@ const MainPage = () => {
       <div className={style.chatContainer}>
         <div className={style.chatList}>
           <div className={style.headerList}>
-            <Search size="large" />
+            <Search value={searchDialogs} onChange={onChange} size="large" />
           </div>
-          {isEmpty(chatList) ? (
+          {loading ? (
+            <div className={style.emptyChatList}>
+              <Spin size="large" />
+            </div>
+          ) : isEmpty(dialogs) ? (
             <div className={style.emptyChatList}>Нет чатов</div>
+          ) : isEmpty(filterDialogs) ? (
+            <div className={style.emptyChatList}>Чат не найден</div>
           ) : (
-            orderBy(chatList, ["created_at"], ["desc"]).map((chat) => (
-              <ChatListItem key={chat.chatId + chat.login} chat={chat} />
+            orderBy(filterDialogs, ["created_at"], ["desc"]).map((chat) => (
+              <ChatListItem key={chat._id + chat.user._id} chat={chat} />
             ))
           )}
         </div>
