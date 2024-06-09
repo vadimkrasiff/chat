@@ -15,6 +15,8 @@ import {
 } from "ui-kit";
 import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
+import { logout } from "api/user";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const [userData] = useState({
@@ -23,6 +25,7 @@ const ProfilePage = () => {
     post: "Младший разработчик",
     email: "v_krasiv@gmail.com",
   });
+  const navigate = useNavigate();
   const [image, setImage] = useState<any>(null);
   const [scale, setScale] = useState(1.2);
   const [modalVisible, setModalVisible] = useState(false);
@@ -105,10 +108,18 @@ const ProfilePage = () => {
         </Form>
       </div>
       <div className={classNames("whiteBlock", styles.logout)}>
-        <div className={classNames(styles.logoutItem)}>
+        <Button
+          ghost
+          type="text"
+          onClick={() => {
+            logout();
+            setTimeout(() => navigate("/login"), 1000);
+          }}
+          className={classNames(styles.logoutItem)}
+        >
           <LogoutOutlined />
           <span>Выйти из аккаунта</span>
-        </div>
+        </Button>
       </div>
       <Modal
         width={500}

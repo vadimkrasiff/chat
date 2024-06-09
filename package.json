@@ -74,6 +74,7 @@
   },
   "main": "index.js",
   "license": "MIT",
+  "proxy": "http://localhost:3000",
   "eslintConfig": {
     "extends": "react-app",
     "overrides": [

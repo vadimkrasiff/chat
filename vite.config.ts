@@ -13,5 +13,16 @@ export default defineConfig({
       Helpers: new URL("./src/Helpers", import.meta.url).pathname,
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        rewrite: (path) => {
+          return path.replace(/^\/api/, "");
+        },
+      },
+    },
+  },
   plugins: [react()],
 });

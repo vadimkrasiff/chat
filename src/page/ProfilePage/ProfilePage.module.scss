@@ -56,8 +56,6 @@
 }
 .logout {
   .logoutItem {
-    cursor: pointer;
-
     padding: 10px;
     display: flex;
     align-items: center;
@@ -68,6 +66,11 @@
 
     :global(.anticon) {
       font-size: 24px;
+    }
+
+    &:hover {
+      color: rgba(245, 34, 45, 0.88) !important;
+      background-color: unset !important;
     }
   }
 }

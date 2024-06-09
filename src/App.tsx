@@ -1,17 +1,34 @@
 import "./App.scss";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sider from "./page/MainPage/components/Sider/Sider";
-import { Provider } from "react-redux";
-import store from "./redux/store/configureStore.ts";
+import { useEffect } from "react";
+import { getMe } from "api/user.ts";
+import { useDispatch } from "react-redux";
+import { setUserAC } from "actions";
 
 function App() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const getDataMe = async () => {
+    const data = await getMe();
+    if (!!data) {
+      dispatch(setUserAC(data));
+    } else {
+      navigate("/login");
+      localStorage.removeItem("token");
+
+    }
+  };
+  useEffect(() => {
+    getDataMe();
+  }, []);
+
   return (
-    <Provider store={store}>
-      <div style={{ display: "flex" }}>
-        <Sider />
-        <Outlet />
-      </div>
-    </Provider>
+    <div style={{ display: "flex" }}>
+      <Sider />
+      <Outlet />
+    </div>
   );
 }
 

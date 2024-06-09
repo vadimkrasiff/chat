@@ -13,15 +13,17 @@ import AuthPage from "./page/AuthPage/AuthPage.tsx";
 import Sider from "./page/MainPage/components/Sider/Sider.tsx";
 import SettingPage from "./page/SettingPage/SettingPage.tsx";
 import ProfilePage from "./page/ProfilePage/ProfilePage.tsx";
+import { Provider } from "react-redux";
+import store from "./redux/store/configureStore.ts";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <AuthPage />,
+    element:  <Provider store={store}><AuthPage /></Provider>,
   },
   {
     path: "/",
-    element: <App />,
+    element: <Provider store={store}><App /></Provider>,
     errorElement: (
       <div style={{ display: "flex" }}>
         <Sider />

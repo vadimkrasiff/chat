@@ -6,6 +6,14 @@
   }
 }
 
+.systemMessage {
+  display: flex;
+  justify-content: center;
+  .messageBody {
+    background-color: #f7f7f7;
+  }
+}
+
 .theirMessage {
   display: flex;
   justify-content: start;
@@ -16,16 +24,19 @@
 
 .messageBody {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   flex-direction: column;
   position: relative;
   min-width: 200px;
   max-width: 500px;
   min-height: 50px;
-  padding: 15px 15px 24px;
+  padding: 10px 10px 24px;
   border-radius: 6px;
   white-space: pre-line;
 
+  .messageAuthor {
+    font-weight: 600;
+  }
   .attachments {
     display: flex;
     flex-wrap: wrap;

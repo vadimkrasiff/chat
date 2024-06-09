@@ -1,35 +1,27 @@
 @font-face {
-  font-family: "Roboto-Regular";
+  font-family: "Inter-Regular";
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
 
-  src: url("src/assets/fonts/Roboto-Regular.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Regular.ttf") format("ttf");
 }
-@font-face {
-  font-family: "Roboto-Medium";
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
 
-  src: url("https://web.telegram.org/a/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.465390c6e54c60f4a15f.woff2")
-    format("woff2");
-}
 @font-face {
-  font-family: "Roboto-Bold";
+  font-family: "Inter-Bold";
   font-weight: 700;
   font-style: normal;
   font-stretch: normal;
 
-  src: url("src/assets/fonts/Roboto-Bold.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Bold.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: "Roboto-Light";
+  font-family: "Inter-Light";
   font-weight: 100;
   font-style: normal;
   font-stretch: normal;
-  src: url("src/assets/fonts/Roboto-Light.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Light.ttf") format("ttf");
 }
 .ant-carousel {
   font-family: sans-serif;

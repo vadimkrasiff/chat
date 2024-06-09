@@ -1,34 +1,34 @@
 @font-face {
-  font-family: "Roboto-Regular";
+  font-family: "Inter-Regular";
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
 
-  src: url("src/assets/fonts/Roboto-Regular.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Regular.ttf") format("ttf");
 }
 @font-face {
-  font-family: "Roboto-Medium";
+  font-family: "Inter-Medium";
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
 
-  src: url("src/assets/fonts/Roboto-Medium.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Medium.ttf") format("ttf");
 }
 @font-face {
-  font-family: "Roboto-Bold";
+  font-family: "Inter-Bold";
   font-weight: 700;
   font-style: normal;
   font-stretch: normal;
 
-  src: url("src/assets/fonts/Roboto-Bold.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Bold.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: "Roboto-Light";
+  font-family: "Inter-Light";
   font-weight: 100;
   font-style: normal;
   font-stretch: normal;
-  src: url("src/assets/fonts/Roboto-Light.ttf") format("ttf");
+  src: url("src/assets/fonts/Inter-Light.ttf") format("ttf");
 }
 
 body {
@@ -37,7 +37,7 @@ body {
   place-items: center;
   min-height: 100vh;
   color: rgba(0, 0, 0, 0.88);
-  font-family: 'Roboto-Regular', Tahoma, serif !important;
+  font-family: 'Inter' !important;
 }
 
 @media (prefers-color-scheme: light) {

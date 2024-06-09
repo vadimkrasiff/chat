@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import Dialog from "./components/Dialog/Dialog";
 import DialogInfo from "./components/DialogInfo/DialogInfo";
 import { useSelector, useDispatch } from "react-redux";
-import { getDialogs } from "api";
+import { getChats } from "api";
 import { setDialogsAC } from "actions";
 import { Spin } from "ui-kit";
 
@@ -25,18 +25,19 @@ const MainPage = () => {
   const filterDialogs = useMemo(
     () =>
       dialogs.filter((dialog: any) =>
-        dialog.user.fullname.toLowerCase().includes(searchDialogs.toLowerCase())
+        dialog.name.toLowerCase().includes(searchDialogs.toLowerCase())
       ),
     [dialogs, searchDialogs]
   );
 
   const setDialogs = useCallback(async () => {
-    const data = await getDialogs();
+    const data = await getChats();
 
     if (data) {
       dispatch(setDialogsAC(data));
-      setLoading(false);
     }
+    setLoading(false);
+
   }, []);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const MainPage = () => {
             <div className={style.emptyChatList}>Чат не найден</div>
           ) : (
             orderBy(filterDialogs, ["created_at"], ["desc"]).map((chat) => (
-              <ChatListItem key={chat._id + chat.user._id} chat={chat} />
+              <ChatListItem key={chat._id} chat={chat} />
             ))
           )}
         </div>

@@ -1,14 +1,47 @@
-import { Avatar, Button, Form, Input } from "ui-kit";
+import { Avatar, Button, Form, Input, Spin } from "ui-kit";
 import style from "./AuthPage.module.scss";
 import { LoginOutlined } from "@ant-design/icons";
+import { authUser, authUserProps, getMe } from "api/user";
+import { useEffect, useState } from "react";
+
+import { isEmpty } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
-  const onFinish = (values: any) => {
-    console.log(values);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
+  const onFinish = async (values: authUserProps) => {
+    setLoading(true);
+    const data = await authUser(values);
+    if (!isEmpty(data)) {
+      setLoading(false);
+      navigate("/im");
+    } else {
+      setLoading(false);
+    }
   };
 
-  const requiredRule = {required: true, message: 'Обязательное поле'};
-  return (
+  const getAuthMe = async () => {
+    const data = await getMe();
+    setisLoading(false);
+    if (data) {
+      navigate("/im");
+    }
+  };
+  useEffect(() => {
+    setisLoading(true);
+    getAuthMe();
+  }, []);
+
+  const requiredRule = { required: true, message: "Обязательное поле" };
+  return isLoading ? (
+    <>
+      <div className={style.emptyChatList}>
+        <Spin size="large" />
+      </div>
+    </>
+  ) : (
     <>
       <div className={style.formBlock}>
         <div className={style.headerForm}>
@@ -28,6 +61,7 @@ const AuthPage = () => {
             icon={<LoginOutlined />}
             htmlType="submit"
             type="primary"
+            loading={loading}
           >
             Войти
           </Button>

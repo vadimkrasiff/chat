@@ -35,7 +35,9 @@ export const fetchFunc = async (
       } else return status;
     }
   } catch (error: any) {
-    if (onError) onError(error.response);
-    else errorModalCreate(error.response);
+    if (error.response.status !== 403) {
+      if (onError) onError(error.response.data.message || error.message);
+      else errorModalCreate(error.response.data.message || error.message);
+    }
   }
 };

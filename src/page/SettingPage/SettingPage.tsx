@@ -1,4 +1,4 @@
-import { Typography } from "ui-kit";
+import { Button, Typography } from "ui-kit";
 import styles from "./SettingPage.module.scss";
 import classNames from "classnames";
 import {
@@ -11,8 +11,12 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import ExclamationPoint from "../../image/LanguageIcon.svg";
+import { logout } from "api/user";
+import { useNavigate } from "react-router-dom";
 
 const SettingPage = () => {
+  const navigate = useNavigate();
+
   const settingList = [
     { icon: <BellOutlined />, title: "Уведомления и звуки" },
     { icon: <MessageOutlined />, title: "Настройки учатов" },
@@ -37,10 +41,18 @@ const SettingPage = () => {
         ))}
       </div>
       <div className={classNames("whiteBlock", styles.logout)}>
-        <div className={classNames(styles.logoutItem)}>
+        <Button
+          ghost
+          type="text"
+          onClick={() => {
+            logout();
+            setTimeout(() => navigate("/login"), 1000);
+          }}
+          className={classNames(styles.logoutItem)}
+        >
           <LogoutOutlined />
           <span>Выйти из аккаунта</span>
-        </div>
+        </Button>
       </div>
     </div>
   );

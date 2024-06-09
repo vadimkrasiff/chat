@@ -6,6 +6,9 @@
   text-decoration: none;
   color: #000000;
   transition: 0.3s;
+  // &.unread {
+  //   background-color: #eaf0ffa8;
+  // }
   &:hover {
     background-color: #eaf0ff;
     :global {

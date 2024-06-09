@@ -8,14 +8,17 @@ import { useEffect } from "react";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { TinyColor } from "@ctrl/tinycolor";
+import { TeamOutlined } from "@ant-design/icons";
 
 interface ChatListItemProps {
   chat: any;
 }
 
 const ChatListItem = ({ chat }: ChatListItemProps) => {
-  const { user, created_at, text, isMe, readed, _id, unreaded } = chat;
+  const { name, lastMessage, type, _id, unreaded, avatar, last_seen } = chat;
 
+  const { author, text, unread, isMe, createdAt, isSystem } =
+    lastMessage as any;
   const { id } = useParams();
 
   // useEffect(() => {}, [id]);
@@ -52,13 +55,13 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
       return inputDate.format("DD.MM.YYYY");
     }
   };
-
-  const colors = useMemo(() => getColorAvatar(user.login), [user.login]);
+  const colors = useMemo(() => getColorAvatar(_id), [_id]);
   const avatarChards = useMemo(() => {
-    const [surname, name] = user.fullname.split(" ");
-    const avatarChard = surname[0] + (name?.[0] || "");
+    const [surname, firstname] = name.split(" ");
+    const avatarChard = surname[0] + (firstname?.[0] || "");
     return avatarChard;
-  }, [user.fullname]);
+  }, [name]);
+
   return (
     <>
       <Link
@@ -67,9 +70,12 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
           [style.currentChat]: id == _id,
         })}
       >
-        <Badge status="success" dot={user.online}>
-          {user.avatar ? (
-            <Avatar src={user.avatar} size={50} />
+        <Badge
+          status="success"
+          dot={dayjs(new Date()).diff(dayjs(new Date(last_seen)), "minute") < 5}
+        >
+          {avatar ? (
+            <Avatar src={avatar} size={50} />
           ) : (
             <Avatar
               style={{
@@ -84,14 +90,28 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
         </Badge>
         <div className={style.chatInfo}>
           <div className={style.firtsInfo}>
-            <span className={style.fullName}>{user.fullname}</span>
+            <span className={style.fullName}>
+              {type === "group" && (
+                <TeamOutlined
+                  style={{ marginRight: "5px", color: "rgb(0, 0, 0, 0.45)" }}
+                />
+              )}
+              {name}
+            </span>
             <div className={style.statusMessage}>
-              {!isMe ? "" : <img src={readed ? readedImage : noReaded} />}
-              {formatDate(new Date(created_at))}
+              {!isMe || isSystem ? (
+                ""
+              ) : (
+                <img src={!unread ? readedImage : noReaded} />
+              )}
+              {formatDate(new Date(createdAt))}
             </div>
           </div>
           <div className={style.message}>
-            <div className={style.lastMessage}>{text}</div>
+            <div className={style.lastMessage}>
+              {!isSystem && type == "group" && `${author}: `}
+              {text}
+            </div>
             <Badge className={style.countMessage} count={unreaded} />
           </div>
         </div>
