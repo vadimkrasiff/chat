@@ -6,3 +6,24 @@ export const getChats = async () => {
     return data;
   } catch (error) {}
 };
+
+export const getChat = async (chatId: string) => {
+  try {
+    const data = await fetchFunc({
+      url: `/api/chat?id=${chatId}`,
+      method: "get",
+    });
+    return data;
+  } catch (error) {}
+};
+
+export const createChat = async (post: any) => {
+  try {
+    const data = await fetchFunc({
+      url: `/api/chat`,
+      method: "post",
+      data: post,
+    });
+    return data;
+  } catch (error) {}
+};

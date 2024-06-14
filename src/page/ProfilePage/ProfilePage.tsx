@@ -1,7 +1,10 @@
 import classNames from "classnames";
 import styles from "./ProfilePage.module.scss";
-import { LogoutOutlined, PictureOutlined } from "@ant-design/icons";
-import avatar from "../../../src/image/avatar.jpg";
+import {
+  LogoutOutlined,
+  PictureOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -13,34 +16,28 @@ import {
   Upload,
   Slider,
 } from "ui-kit";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
-import { logout } from "api/user";
+import { getMe, logout } from "api/user";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFunc } from "api/fetchFunc";
+import { setUserAC } from "actions";
 
 const ProfilePage = () => {
-  const [userData] = useState({
-    fullname: "Красильников Вадим",
-    username: "v_krasiv",
-    post: "Младший разработчик",
-    email: "v_krasiv@gmail.com",
-  });
   const navigate = useNavigate();
   const [image, setImage] = useState<any>(null);
   const [scale, setScale] = useState(1.2);
   const [modalVisible, setModalVisible] = useState(false);
   const editorRef = useRef<any>(null);
+  const user = useSelector((state: any) => state?.user);
+  const dispatch = useDispatch();
 
   const handleImageChange = (info: any) => {
-    console.log(info.file);
-
     if (info.fileList.length > 0) {
       const reader = new FileReader();
-
       reader.onload = () => {
         setImage(reader.result);
-        console.log("ads");
-
         setModalVisible(true);
       };
       reader.readAsDataURL(
@@ -49,23 +46,37 @@ const ProfilePage = () => {
     }
   };
 
-  const handleScaleChange = (e: any) => {
-    setScale(e);
+  const handleScaleChange = (value: number) => {
+    setScale(value);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editorRef.current) {
       const canvas = editorRef.current.getImageScaledToCanvas();
       canvas.toBlob(
-        (blob: any) => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "avatar.jpg";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
+        async (blob: Blob) => {
+          const formData = new FormData();
+          formData.append("avatar", blob, "avatar.jpg");
+
+          try {
+            const response = await fetchFunc({
+              url: "/api/user/avatar",
+              method: "POST",
+              data: formData,
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
+
+            if (response.avatar) {
+              const data = await getMe();
+              if (!!data) {
+                dispatch(setUserAC(data));
+              }
+            }
+          } catch (error) {
+            console.error("Error uploading avatar", error);
+          }
         },
         "image/jpeg",
         1
@@ -78,13 +89,23 @@ const ProfilePage = () => {
     <div className={classNames(styles.profilePage)}>
       <div className={classNames("whiteBlock", styles.headerPorfile)}>
         <div className={styles.firstInfo}>
-          <ComponentImage src={avatar} className={styles.avatar} />
-          <div className={styles.textBlock}>
-            <Typography.Title level={3}>Красильников Вадим</Typography.Title>
-            <Typography.Text type="secondary">
-              Младший разработчик
-            </Typography.Text>
-          </div>
+          {user && (
+            <>
+              {user?.avatar ? (
+                <ComponentImage
+                  src={"http://localhost:3000" + user?.avatar}
+                  className={styles.avatar}
+                />
+              ) : (
+                <Avatar size={80} icon={<UserOutlined />} />
+              )}
+              <div className={styles.textBlock}>
+                <Typography.Title
+                  level={3}
+                >{`${user?.surname} ${user?.name} ${user?.patronymic}`}</Typography.Title>
+              </div>
+            </>
+          )}
         </div>
         <div className={styles.buttonsGroup}>
           <Upload
@@ -101,10 +122,8 @@ const ProfilePage = () => {
       <div className={classNames("whiteBlock", styles.detailedInfo)}>
         <Typography.Title level={3}>Подробная информация</Typography.Title>
         <Form layout="vertical">
-          <Form.Item label="Имя пользователя">{userData.username}</Form.Item>
-          <Form.Item label="Полное имя">{userData.fullname}</Form.Item>
-          <Form.Item label="Должность">{userData.post}</Form.Item>
-          <Form.Item label="Почта">{userData.email}</Form.Item>
+          <Form.Item label="Полное имя">{`${user?.surname} ${user?.name} ${user?.patronymic}`}</Form.Item>
+          <Form.Item label="Почта">{user?.email}</Form.Item>
         </Form>
       </div>
       <div className={classNames("whiteBlock", styles.logout)}>

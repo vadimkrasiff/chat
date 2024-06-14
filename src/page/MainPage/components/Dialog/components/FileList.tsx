@@ -6,13 +6,13 @@ import { getSizeFile } from "Helpers/getSizeFile";
 
 interface FileListPropsType {
   fileList: UploadFile[];
-  onRemove: (value: UploadFile) => void;
+  onRemove?: (value: UploadFile) => void;
 }
 
 const FileList = ({ fileList, onRemove }: FileListPropsType) => {
   return fileList.map((file) => {
     const onClick = () => {
-      onRemove(file);
+      onRemove && onRemove(file);
     };
     return (
       <div className={style.fileWrap} key={file.name + file.size}>
@@ -30,12 +30,14 @@ const FileList = ({ fileList, onRemove }: FileListPropsType) => {
             </div>
           </div>
         </div>
-        <Button
-          onClick={onClick}
-          type="text"
-          danger
-          icon={<DeleteOutlined style={{ fontSize: "18px" }} />}
-        />
+        {onRemove && (
+          <Button
+            onClick={onClick}
+            type="text"
+            danger
+            icon={<DeleteOutlined style={{ fontSize: "18px" }} />}
+          />
+        )}
       </div>
     );
   });

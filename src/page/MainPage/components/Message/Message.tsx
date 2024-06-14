@@ -3,9 +3,14 @@ import readedImage from "./../ChatListItem/assests/readed.svg";
 import noReaded from "./../ChatListItem/assests/noReaded.svg";
 import dayjs from "dayjs";
 import { isEmpty } from "lodash";
-import { Image } from "ui-kit";
+import { Dropdown, Image, MenuProps } from "ui-kit";
 import ReactPlayer from "react-player";
-import Emoji from "react-emoji-render";
+import { useSelector, useDispatch } from "react-redux";
+import { DeleteOutlined } from "@ant-design/icons";
+import { showDeleteConfirm } from "Helpers";
+import { removeMessage } from "api";
+import { useMemo } from "react";
+import FileList from "../Dialog/components/FileList";
 
 interface MessageProps {
   message: any;
@@ -20,79 +25,92 @@ interface Options {
 }
 
 const Message = ({ message }: MessageProps) => {
-  const {
-    isSystem,
-    isMe,
-    readed,
-    author,
-    text,
-    chat,
-    attachments,
-    created_at,
-  } = message;
+  const { isSystem, _id, unread, author, text, chat, attachments, createdAt } =
+    message;
 
-  function MyEmojiRenderer({ children, ...rest }: any) {
-    const options: Options = {
-      // baseUrl: "https://emojipedia.org/apple/ios-17.4",
-      // ext: "png",
-    };
+  const user = useSelector((state: any) => state?.user);
 
-    return <Emoji options={options} {...rest} />;
-  }
+  const files = useMemo(
+    () =>
+      attachments?.files
+        ? attachments.files.map((file: any) => ({
+            ...file,
+            url: "http://localhost:3000" + file.url,
+            name: file.filename,
+          }))
+        : [],
+    [attachments?.files]
+  );
+  const isMe = author._id === user._id;
 
+  const onRemoveMessage = async () => {
+    const deletedMessage = await removeMessage(_id);
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: "Удалить сообщение",
+      key: "1",
+      danger: true,
+      icon: <DeleteOutlined />,
+      onClick: () => {
+        showDeleteConfirm({
+          content: "Вы действительно хотите удалить сообщение?",
+          onOk: () => onRemoveMessage(),
+        });
+      },
+    },
+  ];
+
+  const messageContent = () => (
+    <div className={isMe ? style.myMessage : style.theirMessage}>
+      <div className={style.messageBody}>
+        {chat?.type == "group" && (
+          <div className={style.messageAuthor}>{author?.name}</div>
+        )}
+        {!isEmpty(attachments?.photos) && (
+          <div className={style.attachments}>
+            <Image.PreviewGroup
+              preview={{
+                imageRender: (imageNode, { current }) => {
+                  //   if (fileImages[current].video) {
+                  //     return (
+                  //       <ReactPlayer muted controls url={attachments[current].video} />
+                  //     );
+                  //   }
+                  return imageNode;
+                },
+              }}
+            >
+              {attachments?.photos?.map((item: any, index: any) => (
+                <Image
+                  key={`image-${index}`}
+                  className={style.image}
+                  src={"http://localhost:3000" + item.url}
+                />
+              ))}
+            </Image.PreviewGroup>
+          </div>
+        )}
+        {!isEmpty(files) && <FileList fileList={files} />}
+        {text}
+        <div className={style.statusMessage}>
+          {!isMe ? "" : <img src={!unread ? readedImage : noReaded} />}
+          {dayjs(new Date(createdAt)).format("HH:mm")}
+        </div>
+      </div>
+    </div>
+  );
   return isSystem ? (
     <>
       <div className={style.systemMessage}>{text}</div>
     </>
+  ) : isMe ? (
+    <Dropdown menu={{ items }} trigger={["contextMenu"]}>
+      {messageContent()}
+    </Dropdown>
   ) : (
-    <>
-      <div className={isMe ? style.myMessage : style.theirMessage}>
-        <div className={style.messageBody}>
-          {chat.type == "group" && (
-            <div className={style.messageAuthor}>{author.name}</div>
-          )}
-          {!isEmpty(attachments) && (
-            <div className={style.attachments}>
-              <Image.PreviewGroup
-                preview={{
-                  imageRender: (imageNode, { current }) => {
-                    if (attachments[current].video) {
-                      return (
-                        <ReactPlayer
-                          muted
-                          controls
-                          url={attachments[current].video}
-                        />
-                      );
-                    }
-                    return imageNode;
-                  },
-                }}
-              >
-                {attachments.map((item: any, index: any) => (
-                  <Image
-                    key={`image-${index}`}
-                    className={style.image}
-                    src={item.url}
-                  />
-                ))}
-              </Image.PreviewGroup>
-            </div>
-            // <div className={style.attachments}>
-            //   {attachments.map((attach: any) => (
-            //     <img src={attach.url} alt={attach.filename} />
-            //   ))}
-            // </div>
-          )}
-          <MyEmojiRenderer text={text} />
-
-          <div className={style.statusMessage}>
-            {!isMe ? "" : <img src={readed ? readedImage : noReaded} />}
-            {dayjs(created_at).format("HH:mm")}
-          </div>
-        </div>
-      </div>
-    </>
+    messageContent()
   );
 };
 

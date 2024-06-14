@@ -2,7 +2,7 @@ import { Avatar, Button, Form, Input, Spin } from "ui-kit";
 import style from "./AuthPage.module.scss";
 import { LoginOutlined } from "@ant-design/icons";
 import { authUser, authUserProps, getMe } from "api/user";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { isEmpty } from "lodash";
 import { useNavigate } from "react-router-dom";
@@ -22,17 +22,17 @@ const AuthPage = () => {
     }
   };
 
-  const getAuthMe = async () => {
+  const getAuthMe = useCallback(async () => {
     const data = await getMe();
     setisLoading(false);
     if (data) {
       navigate("/im");
     }
-  };
+  }, [navigate]);
   useEffect(() => {
     setisLoading(true);
     getAuthMe();
-  }, []);
+  }, [getAuthMe]);
 
   const requiredRule = { required: true, message: "Обязательное поле" };
   return isLoading ? (

@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { EditOutlined, LeftOutlined } from "@ant-design/icons";
 import style from "./DialogInfo.module.scss";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Button, Image, SliceTabs, Tabs, Typography } from "ui-kit";
 import classNames from "classnames";
 import avatar from "./../../../../image/avatar.jpg";
 import InfoTab from "./components/InfoTab/InfoTab";
 import MediaTab from "./components/MediaTab/MediaTab";
 import FileTab from "./components/FileTab/FileTab";
+import dayjs from "dayjs";
+import getColorAvatar from "Helpers/getColorAvatar";
 
 interface DialogInfoProps {
   goTo: (slide: number) => void;
 }
 
 const DialogInfo = ({ goTo }: DialogInfoProps) => {
+  const chat = useSelector((state: any) => state?.dialogs?.chat);
+
+  const colors = useMemo(
+    () => chat?._id && getColorAvatar(chat?._id),
+    [chat?._id]
+  );
+  const avatarChards = useMemo(() => {
+    if (chat?.name) {
+      const [surname, firstname] = chat?.name?.split(" ");
+      const avatarChard = surname[0] + (firstname?.[0] || "");
+      return avatarChard;
+    }
+    return "";
+  }, [chat?.name]);
+
   const [activeTab, setActiveTab] = useState<any>("1");
   return (
     <div className={style.DialogInfoContainer}>
@@ -24,10 +42,38 @@ const DialogInfo = ({ goTo }: DialogInfoProps) => {
               onClick={() => goTo(0)}
               icon={<LeftOutlined />}
             />
-            <Image src={avatar} className={style.avatar} />
+            {chat?.photo ? (
+              <Image
+                src={"http://localhost:3000" + chat?.photo}
+                className={style.avatar}
+              />
+            ) : (
+              <Avatar
+                style={{
+                  background: `linear-gradient(135deg, ${colors?.color}, ${colors?.colorLighten})`,
+                  border: "none",
+                }}
+                size={50}
+              >
+                {avatarChards}
+              </Avatar>
+            )}
             <div className={style.headerInfo}>
-              <div className={style.fullname}>Красильников Вадим</div>
-              <div className={style.onlineStatus}>в сети</div>
+              {chat != null && (
+                <>
+                  <div className={style.fullname}>{chat?.name}</div>
+                  <div className={style.onlineStatus}>
+                    {chat.type == "private"
+                      ? dayjs(new Date()).diff(
+                          dayjs(new Date(chat?.last_seen)),
+                          "minute"
+                        ) < 5
+                        ? "в сети"
+                        : "был(а) недавно"
+                      : `${chat?.participants?.length} участников`}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <Button

@@ -6,9 +6,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Sider = () => {
   const pathname = window.location.pathname.split("/");
+  const user = useSelector((state: any) => state?.user);
 
   const menuItems: MenuItemType[] = [
     {
@@ -34,7 +36,11 @@ const Sider = () => {
       label: "Профиль",
       icon: (
         <Link to="/profile">
-          <Avatar size={40} icon={<UserOutlined />} />
+          <Avatar
+            src={"http://localhost:3000" + user?.avatar}
+            size={40}
+            icon={<UserOutlined />}
+          />
         </Link>
       ),
     },

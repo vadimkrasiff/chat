@@ -19,11 +19,15 @@ import store from "./redux/store/configureStore.ts";
 const router = createBrowserRouter([
   {
     path: "/login",
-    element:  <Provider store={store}><AuthPage /></Provider>,
+    element: <AuthPage />,
   },
   {
     path: "/",
-    element: <Provider store={store}><App /></Provider>,
+    element: (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ),
     errorElement: (
       <div style={{ display: "flex" }}>
         <Sider />

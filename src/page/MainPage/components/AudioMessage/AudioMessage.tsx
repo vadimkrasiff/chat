@@ -22,7 +22,7 @@ interface MessageProps {
 }
 
 const AudioMessage = ({ message }: MessageProps) => {
-  const { isMe, readed, attachments, created_at, audio } = message;
+  const { isMe, unread, attachments, created_at, audio } = message;
   const [isPlay, setPlay] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -80,7 +80,7 @@ const AudioMessage = ({ message }: MessageProps) => {
   return (
     <>
       <div className={isMe ? style.myMessage : style.theirMessage}>
-        <audio src={audio} ref={audioRef}></audio>
+        <audio src={"http://localhost:3000" + audio.url} ref={audioRef}></audio>
         <div className={style.messageBody}>
           <div
             className={style.audioProgress}
@@ -107,7 +107,7 @@ const AudioMessage = ({ message }: MessageProps) => {
           <img src={voiceSVG} alt="" />
           <span className={style.time}>{convertCurrentTime(currentTime)}</span>
           <div className={style.statusMessage}>
-            {!isMe ? "" : <img src={readed ? readedImage : noReaded} />}
+            {!isMe ? "" : <img src={!unread ? readedImage : noReaded} />}
             {dayjs(created_at).format("HH:mm")}
           </div>
         </div>

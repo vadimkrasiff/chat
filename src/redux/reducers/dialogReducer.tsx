@@ -1,7 +1,8 @@
-import { DIALOGS_SET_ITEMS } from "../../actions/actionTypes";
+import { DIALOGS_SET_ITEMS, DIALOG_SET_ITEM } from "../../actions/actionTypes";
 
 const initialState = {
   items: [],
+  chat: null,
 };
 
 const dialogReducer = (state = initialState, { type, payload }: any) => {
@@ -10,6 +11,11 @@ const dialogReducer = (state = initialState, { type, payload }: any) => {
       return {
         ...state,
         items: payload,
+      };
+    case DIALOG_SET_ITEM:
+      return {
+        ...state,
+        chat: payload,
       };
     default:
       return state;

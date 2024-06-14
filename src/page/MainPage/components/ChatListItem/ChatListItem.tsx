@@ -4,21 +4,29 @@ import style from "./ChatListItem.module.scss";
 import readedImage from "./assests/readed.svg";
 import noReaded from "./assests/noReaded.svg";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import classNames from "classnames";
 import dayjs from "dayjs";
 import { TinyColor } from "@ctrl/tinycolor";
 import { TeamOutlined } from "@ant-design/icons";
+import { isEmpty } from "lodash";
 
 interface ChatListItemProps {
   chat: any;
 }
 
 const ChatListItem = ({ chat }: ChatListItemProps) => {
-  const { name, lastMessage, type, _id, unreaded, avatar, last_seen } = chat;
+  const { name, lastMessage, type, _id, unreaded, photo, last_seen } = chat;
 
-  const { author, text, unread, isMe, createdAt, isSystem } =
-    lastMessage as any;
+  const {
+    author,
+    text,
+    unread,
+    isMe,
+    createdAt,
+    isSystem,
+    attachments,
+    audio,
+  } = lastMessage as any;
   const { id } = useParams();
 
   // useEffect(() => {}, [id]);
@@ -62,6 +70,25 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
     return avatarChard;
   }, [name]);
 
+  const textMessage = () => {
+    if (text) {
+      return text;
+    }
+
+    if (!isEmpty(attachments?.photos)) {
+      return "Фото";
+    }
+
+    if (!isEmpty(attachments?.files)) {
+      return "Файл";
+    }
+
+    if (!isEmpty(audio)) {
+      return "Голосовое сообщение";
+    }
+    return "";
+  };
+
   return (
     <>
       <Link
@@ -74,8 +101,8 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
           status="success"
           dot={dayjs(new Date()).diff(dayjs(new Date(last_seen)), "minute") < 5}
         >
-          {avatar ? (
-            <Avatar src={avatar} size={50} />
+          {photo ? (
+            <Avatar src={"http://localhost:3000" + photo} size={50} />
           ) : (
             <Avatar
               style={{
@@ -110,7 +137,7 @@ const ChatListItem = ({ chat }: ChatListItemProps) => {
           <div className={style.message}>
             <div className={style.lastMessage}>
               {!isSystem && type == "group" && `${author}: `}
-              {text}
+              {textMessage()}
             </div>
             <Badge className={style.countMessage} count={unreaded} />
           </div>

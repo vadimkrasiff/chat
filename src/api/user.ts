@@ -34,3 +34,12 @@ export const logout = () => {
   localStorage.removeItem("token");
   axios.defaults.headers.common["token"] = "";
 };
+
+export const getUsers = async () => {
+  try {
+    const data = await fetchFunc({
+      url: "/api/users",
+    });
+    return data;
+  } catch (error) {}
+};
